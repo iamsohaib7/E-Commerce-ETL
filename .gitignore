@@ -172,3 +172,6 @@ cython_debug/
 
 # ignore csv files
 *.csv
+
+# ignore db volume files and folders
+db-data/
