@@ -170,8 +170,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# ignore csv files
-*.csv
-
 # ignore db volume files and folders
 db-data/
