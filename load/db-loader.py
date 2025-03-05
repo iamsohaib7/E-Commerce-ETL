@@ -1,11 +1,10 @@
 import os
 from pathlib import Path
 
-
-import psycopg2
-from dotenv import load_dotenv
 import pandas as pd
-from sqlalchemy import create_engine, UUID, Integer, String, Float, DateTime, Text
+from dotenv import load_dotenv
+from sqlalchemy import (UUID, DateTime, Float, Integer, String, Text,
+                        create_engine)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATASET_PATH = BASE_DIR / "Dataset/Raw-Dataset/E-Commerce/"
@@ -70,7 +69,10 @@ def main():
     order_items_df = pd.read_csv(DATASET_PATH / "olist_order_items_dataset.csv")
     order_items_df.rename(columns={"order_item_id": "quantity"}, inplace=True)
     order_items_df["order_items_id"] = order_items_df.index
-    order_items_df["total_price"] = order_items_df["quantity"] * order_items_df["price"] + order_items_df["freight_value"]
+    order_items_df["total_price"] = (
+        order_items_df["quantity"] * order_items_df["price"]
+        + order_items_df["freight_value"]
+    )
     order_items_df.to_sql(
         "order_items",
         engine,
@@ -81,7 +83,7 @@ def main():
             "order_id": UUID,
             "quantity": Integer,
             "product_id": UUID,
-            "seller_id":  UUID,
+            "seller_id": UUID,
             "shipping_limit_date": DateTime,
             "price": Float,
             "freight_value": Float,
@@ -161,7 +163,7 @@ def main():
             "seller_zip_code_prefix": Integer,
             "seller_state": String(5),
             "seller_city": String(50),
-        }
+        },
     )
 
     # products
@@ -174,27 +176,29 @@ def main():
         dtype={
             "product_id": UUID,
             "product_category_name": String(100),
-            "product_name_lenght":  Integer,
+            "product_name_lenght": Integer,
             "product_description_lenght": Integer,
             "product_photos_qty": Integer,
             "product_weight_g": Integer,
             "product_length_cm": Integer,
             "product_height_cm": Integer,
             "product_width_cm": Integer,
-        }
+        },
     )
 
     # product categories
-    product_categories_df = pd.read_csv(DATASET_PATH / "product_category_name_translation.csv")
+    product_categories_df = pd.read_csv(
+        DATASET_PATH / "product_category_name_translation.csv"
+    )
     product_categories_df.to_sql(
         "product_categories",
         engine,
         if_exists="replace",
         index=False,
         dtype={
-            "product_category_name":  String(100),
+            "product_category_name": String(100),
             "product_category_name_english": String(100),
-        }
+        },
     )
 
 
