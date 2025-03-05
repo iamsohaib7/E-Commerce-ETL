@@ -18,10 +18,14 @@ def upload_df_to_s3(df: pd.DataFrame, bucket: str, key: str):
     """
     logging.info(f"Uploading {key} to {bucket}")
     parquet_buffer = io.BytesIO()
+    # convert uuid type to str because parquet doesnt supports it
+    for col in df.columns:
+        if col.endswith("_id") and df[col].dtype == "object":
+            df[col] = df[col].astype(str)
     df.to_parquet(parquet_buffer, engine="pyarrow", index=False, compression="snappy")
     try:
-        s3 = boto3.resource("s3")
-        s3.put_object(Bucket=bucket, Key=key, Body=parquet_buffer.getvalue())
+        s3_resource = boto3.resource("s3")
+        s3_resource.Bucket(bucket).put_object(Body=parquet_buffer.getvalue(), Key=key, ACL="private")
         logging.info(f"Uploaded {key} to {bucket}")
         return True
     except ClientError as e:
