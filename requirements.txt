@@ -2,3 +2,4 @@ psycopg2==2.9.10
 python-dotenv==1.0.1
 sqlalchemy==2.0.38
 pandas==2.2
+boto3==1.37.6
