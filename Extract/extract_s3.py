@@ -12,7 +12,7 @@ def extract_s3(bucket: str, key: str):
     try:
         s3_client.download_fileobj(bucket, key, buffer)
         buffer.seek(0)
-        return pd.read_parquet(buffer, engine="pyarrow")
+        return pd.read_parquet(buffer.read(), engine="pyarrow")
     except ClientError as e:
         logging.error(e)
     return None
