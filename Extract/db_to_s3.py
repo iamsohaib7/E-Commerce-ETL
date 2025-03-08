@@ -5,7 +5,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 
-from load.s3_loader import upload_df_to_s3
+from Load.s3_loader import upload_df_to_s3
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
