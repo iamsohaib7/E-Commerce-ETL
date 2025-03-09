@@ -172,3 +172,4 @@ cython_debug/
 
 # ignore db volume files and folders
 db-data/
+.venv*
