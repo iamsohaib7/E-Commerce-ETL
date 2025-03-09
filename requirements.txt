@@ -4,3 +4,4 @@ sqlalchemy==2.0.38
 pandas==2.2
 boto3==1.37.6
 pyarrow<19.0.0
+snowflake-connector-python==3.14.0
